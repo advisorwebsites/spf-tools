@@ -40,8 +40,8 @@ PATH=$BINDIR:$PATH
 
 temp=$(mktemp /tmp/$$.XXXXXXXX)
 
-despf.sh "$DOMAIN" | normalize.sh | simplify.sh > "${temp}-1" 2>/dev/null
-despf.sh "$ORIG_SPF" | normalize.sh | simplify.sh > "${temp}-2" 2>/dev/null
+despf.sh "$DOMAIN" | normalize.sh | simplify.sh | ./iprange.sh | ./filter-individual-v6.sh > "${temp}-1" 2>/dev/null
+despf.sh "$ORIG_SPF" | normalize.sh | simplify.sh | ./iprange.sh | ./filter-individual-v6.sh > "${temp}-2" 2>/dev/null
 
 trap 'rm "${temp}-"*' EXIT
 diff -u "${temp}-1" "${temp}-2"
