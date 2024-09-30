@@ -38,7 +38,8 @@ ORIG_SPF=${2:-"$ORIG_SPF"}
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd "$a" || exit; pwd)
 PATH=$BINDIR:$PATH
 
-temp=$(mktemp /tmp/$$.XXXXXXXX)
+temp=$(mktemp /tmp/spftools-compare-$$.XXXXXXXX)
+rm "$temp"
 
 ./despf.sh "$DOMAIN" | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./filter-individual-v6.sh | sort > "${temp}-1" 2>/dev/null
 ./despf.sh "$ORIG_SPF" | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./filter-individual-v6.sh | sort > "${temp}-2" 2>/dev/null
