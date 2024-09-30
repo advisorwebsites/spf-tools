@@ -25,8 +25,8 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd "$a" || exit; pwd)
 # shellcheck source=include/global.inc.sh
 . "$BINDIR/include/global.inc.sh"
 
-DOMAIN='spf-tools.eu.org'
-ORIG_SPF='spf-orig.spf-tools.eu.org'
+DOMAIN='m.advisor.ws'
+ORIG_SPF='original.m.advisor.ws'
 
 # Read settings from config file
 # shellcheck source=/dev/null
@@ -40,8 +40,8 @@ PATH=$BINDIR:$PATH
 
 temp=$(mktemp /tmp/$$.XXXXXXXX)
 
-despf.sh "$DOMAIN" | normalize.sh | simplify.sh | ./iprange.sh | ./filter-individual-v6.sh > "${temp}-1" 2>/dev/null
-despf.sh "$ORIG_SPF" | normalize.sh | simplify.sh | ./iprange.sh | ./filter-individual-v6.sh > "${temp}-2" 2>/dev/null
+./despf.sh "$DOMAIN" | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./filter-individual-v6.sh | sort > "${temp}-1" 2>/dev/null
+./despf.sh "$ORIG_SPF" | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./filter-individual-v6.sh | sort > "${temp}-2" 2>/dev/null
 
 trap 'rm "${temp}-"*' EXIT
 diff -u "${temp}-1" "${temp}-2"
