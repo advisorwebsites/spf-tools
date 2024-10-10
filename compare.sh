@@ -27,6 +27,7 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd "$a" || exit; pwd)
 
 DOMAIN='m.advisor.ws'
 ORIG_SPF='original.m.advisor.ws'
+DNS_SERVER='1.1.1.1'
 
 # Read settings from config file
 # shellcheck source=/dev/null
